@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квартира №1</title>
+    <!-- <style> 
+        body{
+            /* margin: 10px;
+            padding: 10px; */
+            font-family: sans-serif;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+            cursor: auto;
+            position: absolute;
+            top: 5px;
+        }
+        .apart{
+            margin: auto;
+        }
+        .option{
+            display: inline-block;
+            padding: 10px;
+            margin-left: 5px;
+            margin-top: 450px;
+            color:rgba(10, 10, 10,0.8);
+            background: rgba(194, 190, 186, 0.5);
+            border-radius: 30px;
+            border: 1px solid rgba(194, 190, 186, 1);
+        }
+        .option a{
+            text-decoration: none;
+            color: rgba(10, 10, 10,0.8);
+            position: inherit;
+       }
+       .form{
+        margin-top: 10px;
+       }
+        select{
+        display: flex;
+        border: 1px solid rgba(194, 190, 186, 1);
+        color:rgba(10, 10, 10,0.8);
+        width: 280px;
+        height: 35px;
+        /* border-radius: 30px; */
+        background: rgba(194, 190, 186, 0.5);
+        text-align: center;
+        margin-left: 150px;
+       }
+        .quest{
+        position: absolute;
+        height: 400px;
+        margin-top: -720px;
+        }
+        p{
+            display: none;
+        }
+        .quest img{
+        height: 400px;
+        margin-left: 0px;
+        }
+        span{
+            position: absolute;
+            top: -20px;
+            left: 0px;;
+        }
+        label{
+        position: absolute;
+        /* margin-top: 7px; */
+        width: 150px;
+        height: 33px;
+        margin: 7px;
+        }
+        #canvas{
+        /* border: 1px solid gray; */
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 1;
+        position: absolute;
+        margin-left: 25px;
+        margin-top: 65px;
+        opacity: 0.5;
+        cursor: crosshair;
+        }
+    </style> -->
+</head>
+<body>     
+<canvas id="canvas"></canvas>
+<button class="option" id ='butt_choose_apart'>ВЫБРАТЬ ВАРИАНТ КВАРТИРЫ</button>
+<button class="option"><a href="index.html">ВЕРНУТЬСЯ НА ГЛАВНУЮ</a></button>
+<form class="form">
+    <label for="">ПОЛ</label>
+    <select name="floor" id="">
+        <option value="" selected disabled>КОНСТРУКЦИЯ</option>
+        <option value=""></option>
+        <option value="">C2K2</option>
+        <option value="">K2</option>
+    </select>
+    <label for="">ПОТОЛОК</label>
+    <select name="ceiling" id="">
+        <option value="" selected disabled>КОНСТРУКЦИЯ</option>
+        <option value="">100мм</option>
+        <option value="">130мм</option>
+    </select>
+    <label for="">ПЕРЕГОРОДКИ</label>
+    <select name="ceiling" id="">
+        <option value="" selected disabled>КОНСТРУКЦИЯ</option>
+        <option value="">75</option>
+        <option value="" id="partition100" >100</option>
+    </select><br>
+    <label for="">СТЕНA 1</label>
+    <select name="ceiling" id="">
+        <option value="" selected disabled>КОНСТРУКЦИЯ</option>
+        <option value="">ЗИПС</option>
+        <option value="">Каркас на подвесах</option>
+    </select>
+    <label for="">СТЕНA 2</label>
+    <select name="ceiling" id="">
+        <option value="" selected disabled>КОНСТРУКЦИЯ</option>
+        <option value="">ЗИПС</option>
+        <option value="">Каркас на подвесах</option>
+    </select>
+    <label for="">СТЕНA 3</label>
+    <select name="ceiling" id="">
+        <option value="" selected disabled>КОНСТРУКЦИЯ</option>
+        <option value="">ЗИПС</option>
+        <option value="">Каркас на подвесах</option>
+    </select>
+    <label for="">СТЕНA 4</label>
+    <select name="ceiling" id="">
+        <option value="" selected disabled>КОНСТРУКЦИЯ</option>
+        <option value="">ЗИПС</option>
+        <option value="">Каркас на подвесах</option>
+    </select>
+</form>      
+
+ <div class="random_questions" id="p1">
+    </div>
+ <div class="random_quest" id="o1">
+    </div>
+    <div class="apart">
+    </div>
+   <script>           
+        var
+            canv = document.getElementById('canvas'),
+            ctx  = canv.getContext('2d'),
+            isMouseDown = false,
+            coords = [];
+
+        // const mouse ={
+        //     x: 0,
+        //     y: 0,
+        //     left: false,
+        //     right: false,
+        //     over: false,
+        // }
+        
+        canv.width = 590;                             //*размер поля для рисования
+        canv.height = 350;
+                
+        canv.addEventListener('mousedown',function() {
+            isMouseDown = true;
+        });
+        canv.addEventListener('mouseup',function() {
+            isMouseDown = false;
+            ctx.beginPath();                       //*beginPath() - отмена 
+             coords.push('mouseup');                          
+        });
+        ctx.lineWidth = 5 * 2;
+        canv.addEventListener('mousemove',function(e){
+
+            // const rect = canv.getBoundingClientRect();
+            // mouse.x = event.clientX - rect.left;
+            // mouse.y = event.clientY - rect.top;
+            // console.log(rect);
+
+            if(isMouseDown)
+            {
+                coords.push([e.clientX-35, e.clientY-75]);
+                ctx.lineTo(e.clientX-35, e.clientY-75);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(e.clientX-35,e.clientY-75, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(e.clientX-35, e.clientY-75);
+            }
+        });
+
+        function save()
+        {
+            localStorage.setItem('coords', JSON.stringify(coords));
+        }
+
+        function clear() 
+        {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canv.width, canv.height);
+
+            ctx.beginPath();
+            ctx.fillStyle = 'black';
+        }
+
+        function replay()
+        {
+            var 
+                timer = setInterval(function(){
+                    if( !coords.length){                  //проверка координат
+                        clearInterval(timer);
+                        ctx.beginPath();
+                        return;
+                    } 
+            var
+                    crd = coords.shift();
+                    e = {
+                    clientX: crd["0"],
+                    clientY: crd["1"]
+                    };
+                    ctx.lineTo(e.clientX, e.clientY);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.arc(e.clientX,e.clientY, 5, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.moveTo(e.clientX, e.clientY);                        
+                }, 30);
+                
+        }
+
+        document.addEventListener('keydown', function(e){
+            
+            if(e.keyCode == 83){
+                //save
+                save();
+                console.log('Saved');
+            }
+            if(e.keyCode == 82){
+                //replay
+                console.log('Replaying...');
+
+                coords = JSON.parse(localStorage.getItem('coords'));
+                 clear();
+                 replay();
+            }
+            if(e.keyCode == 67){
+                //clear
+                clear();
+                console.log('Clear');
+
+            }
+
+        })
+    </script>                       <!-- canvas -->          
+    <!-- <script src="apart.js"></script> -->
+
+    
+</body>
+</html>

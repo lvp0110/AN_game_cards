@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЧЕРНОВИК</title>
+</head>
+<body>
+    <style> 
+        body{
+        margin: 0px;
+        padding: 0px;;
+        }
+        .btn_canvas{
+        left: 30px;
+        top: 30px;
+        cursor: pointer;
+        border: solid 1px gray;
+        padding: 5px;
+        text-decoration: none;
+        text-transform: uppercase;
+        position: relative;
+        }
+        #canvas1{
+        border: 1px solid gray;
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 1;
+        position: absolute;
+        margin-left: 30px;
+        margin-top: 50px;
+        opacity: 0.5;
+        cursor: crosshair;
+        }
+        </style>
+</head>
+<body>
+    <div class="apart">
+        <a href="index.html" class="btn_canvas">Игровое поле</a>
+        <a  target="_blank" href="https://wbo.ophir.dev/boards/xFtxHTXgLmZ6O0WaBwYIiUxdTrZpMBE17gvQAptAFcY-" class="btn_canvas" >WBO</a>
+    </div>
+    <canvas id="canvas1"></canvas>
+
+    
+    <script>           
+        var
+            canv = document.getElementById('canvas1'),
+            ctx  = canv.getContext('2d'),
+            isMouseDown = false,
+            coords = [];
+            coordsPositionX = 30,
+            coordsPositionY = 70,
+            canv.width = 650;                             //*размер поля для рисования
+            canv.height = 800;
+                
+        canv.addEventListener('mousedown',function() {
+            isMouseDown = true;
+        });
+        canv.addEventListener('mouseup',function() {
+            isMouseDown = false;
+            ctx.beginPath();                       //*beginPath() - отмена 
+             coords.push('mouseup');                          
+        });
+        ctx.lineWidth = 2 * 2;
+        canv.addEventListener('mousemove',function(e){
+          
+            if(isMouseDown)
+            {
+                coords.push([e.clientX-coordsPositionX, e.clientY-coordsPositionY]);
+                ctx.lineTo(e.clientX-coordsPositionX, e.clientY-coordsPositionY);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(e.clientX-coordsPositionX,e.clientY-coordsPositionY, 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(e.clientX-coordsPositionX, e.clientY-coordsPositionY);
+            }
+        });
+        function line(){
+                ctx.fillRect(50,50,100,100);
+               
+        }
+        function save()
+        {
+            localStorage.setItem('coords', JSON.stringify(coords));
+        }
+
+        function clear() 
+        {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canv.width, canv.height);
+
+            ctx.beginPath();
+            ctx.fillStyle = 'black';
+        }
+
+        function replay()
+        {
+            var 
+                timer = setInterval(function(){
+                    if( !coords.length){                  //проверка координат
+                        clearInterval(timer);
+                        ctx.beginPath();
+                        return;
+                    } 
+            var
+                    crd = coords.shift();
+                    e = {
+                    clientX: crd["0"],
+                    clientY: crd["1"]
+                    };
+                    ctx.lineTo(e.clientX, e.clientY);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.arc(e.clientX,e.clientY, 2, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.moveTo(e.clientX, e.clientY);                        
+                }, 30);
+                
+        }
+
+        document.addEventListener('keydown', function(e){
+            
+            if(e.keyCode == 83){
+                //save
+                save();
+                console.log('Saved');
+            }
+            if(e.keyCode == 82){
+                //replay
+                console.log('Replaying...');
+
+                coords = JSON.parse(localStorage.getItem('coords'));
+                 clear();
+                 replay();
+            }
+            if(e.keyCode == 67){
+                //clear
+                clear();
+                console.log('Clear');
+
+            }
+            if(e.keyCode == 76){
+                //clear
+                line();
+                console.log('Line');
+
+            }
+
+        })
+        // document.addEventListener('keydown',function(e){         /* Hotkeys
+        //     console.log(e.keyCode);
+        // })
+    </script>                       
+</body>
+</html>

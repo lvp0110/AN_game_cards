@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игровое поле</title>
+<link rel="stylesheet" href="style.css">
+    <style> 
+        a{
+            text-decoration: none;
+            color: black;
+            cursor: auto;
+            position: absolute;
+            top: 5px;
+        }
+        .apart{
+            margin: auto;
+        }
+        .btn_option{
+            display: inline-block;
+            padding: 10px;
+            /* margin-left: 0px; */
+            margin-top: 2px;
+            color: rgba(10, 10, 10,0.8);
+            background: rgba(194, 190, 186, 0.5);
+            border-radius: 30px;
+            border: 1px solid rgba(194, 190, 186, 1);
+            left: -200px;
+            top: -113px;
+            height: 44px;
+        }
+        .btn_option a{
+            text-decoration: none;
+            color: rgba(10, 10, 10,0.8);
+            position: revert;
+        }
+        .form{
+                margin-top: 647px;
+                margin-left: -380px;
+                transition: all 0.7s
+        }
+        .form #floor{
+                position: absolute;
+                margin-left: -153px;
+                margin-top: -73px;
+                width: 350px;
+                height: 30px;
+        }
+        .form #ceiling{
+                position: absolute;
+                margin-left: -153px;
+                margin-top: -105px;
+                width: 350px;
+                height: 30px;
+        }
+        .frame{
+                position: absolute;
+                margin-left: -317px;
+                margin-top: 540px;
+                display: block;
+        }
+        .frame select{
+                width: 400px;
+                height: 30px;
+                margin: 2px;
+        }
+        select{
+        display: flex;
+        border: 1px solid rgba(194, 190, 186, 1);
+        color:rgba(10, 10, 10,0.8);
+        width: 280px;
+        height: 50px;
+        background: rgba(194, 190, 186, 0.5);
+        text-align: center;
+        margin-left: 150px;
+        }
+        .quest{
+        position: absolute;
+        height: 400px;
+        margin-top: -720px;
+        }
+        /* p{
+            display: none;
+        } */
+        .quest img{
+        height: 450px;
+        margin-left: -191px;
+        margin-top: 720px;;
+        }
+        span{
+        position: absolute;
+        top: 690px;
+        left: -50px;
+        width: 300px;
+        }
+        label{
+        position: absolute;
+        /* margin-top: 7px; */
+        width: 150px;
+        height: 33px;
+        margin: 7px;
+        }
+        #canvas{
+        /* border: 1px solid gray; */
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 1;
+        position: absolute;
+        margin-left: -260px;
+        margin-top: 49px;
+        opacity: 0.5;
+        cursor: crosshair;
+        height: 424px;
+        width: 625px;
+        }
+        .btn_canvas{
+        left: 50px;
+        top: 580px;
+        cursor: pointer;
+        border: solid 1px gray;
+        padding: 5px;
+        z-index: 1;
+        background: rgba(194, 190, 186, 0.5);
+        }
+        
+    </style> 
+</head>
+<body> 
+      <div class="block">
+        <a href="https://www.acoustic.ru/" target="_blank"><img src="logo/logo1.png"></a>
+        <div class="btn_block">
+            <button  id ='butt_choose'>ВЫБРАТЬ ВОПРОС</button><br>
+            <button  id ='butt_noise'>ПЕРЕЙТИ К РЕШЕНИЮ</button><br>
+        </div>
+        <div><a href="https://wbo.ophir.dev/boards/xFtxHTXgLmZ6O0WaBwYIiUxdTrZpMBE17gvQAptAFcY-" target="_blank" class="btn_canvas" id="canv"><i>Черновик</i></a></div>
+        <!-- <button class="btn_canvas" onclick="canvStart()">Черновик</button> -->
+        <div class="random_questions" id="p1"></div>
+    </div> 
+    <div class="block_apart" id ="ba">
+            <div id="block_apart">
+                <div style="height: 525px;width: 740px;left: -315px;position: absolute;border: solid 2px grey;z-index: 3;">
+                   <div style="height: 426px;width: 643px;left: 44px;top: 46px;position: absolute;border: solid 2px grey;"></div>
+                </div>
+            </div>
+            <canvas id="canvas"></canvas>
+                <button class="btn_option" id ='butt_choose_apart'>ВЫБРАТЬ ВАРИАНТ КВАРТИРЫ</button><br>
+                <button class="btn_option" id = "main_page">ВЕРНУТЬСЯ НА ГЛАВНУЮ</button>
+            <form class="form">
+                <select class="floor" name="F" id="floor" style="z-index: 2;"></select>
+                <select class="ceiling" name="C" id="ceiling" style="z-index: 2;"></select>
+            </form>
+            <form class="frame" action="">
+                <label for="">1</label>
+                <select class="wall" name="L" id="frame1" > 
+                </select>
+                <label for="">2</label>
+                <select class="wall" name="L" id="frame2">
+                </select>
+                <label for="">3</label>
+                <select class="wall" name="L" id="frame3">
+                </select>
+                <label for="">4</label>
+                <select class="wall" name="L" id="frame4">
+                </select>
+                <label for=""></label>
+                <select class="partition" name="W" id="partition">
+                </select>
+            </form>
+            <div class="label_instruct">
+                <i style="font-size: 10px;">инструкция к полю для рисования</i>            
+                <marquee class = "instruct"  direction = "right">
+                    <h3> * R &nbsp; - &nbsp; воспроизвести &nbsp;  сохраенное &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        * S &nbsp; - &nbsp;  сохранить &nbsp; содержимое &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                      * C &nbsp; - &nbsp; очистить &nbsp; содержимое &nbsp; поля </p></h3></marquee> 
+             </div>  
+        
+        <div class="test" style="    
+                height: 500px;
+                z-index: 3;
+                top: -150px;
+                left: -350px;
+                position: absolute;">
+
+            <img  class="img_constr" id ="topWall" style = "
+                height: 626px;
+                margin-left: 388px;
+                margin-top: -98px;
+                transform: rotate(270deg);
+                z-index: 2"
+            src="" alt=""></img>
+
+            <img class="img_constr" id="bottomWall" style = "
+                height: 626px;
+                margin-left: 387px;
+                margin-top: 293px;
+                transform: rotate(90deg);
+                z-index: 2;
+            " 
+            src="" alt=""></img>
+         
+            <img class="img_constr" id="rightWall" style = "
+                height: 423px;
+                margin-left: 678px;
+                margin-top: 199px;
+                transform: rotate(0deg);
+                z-index: 2;
+            "
+            src="" alt=""></img>
+            
+            <img class="img_constr" id="leftWall" style = "
+                height: 423px;
+                margin-left: 90px;
+                margin-top: 199px;
+                transform: rotate(180deg);
+                z-index: 2;
+                "
+            src="" alt=""></img>
+            <img class="img_constr" id="ceiling_img" style = "
+                height: 93px;
+                /* width: 93px; */
+                margin-left: 825px;
+                margin-top: 172px;
+                transform: rotate(270deg);
+                z-index: 2;
+                "
+            src="" alt=""></img>
+            <img class="img_constr" id="floor_img" style = "
+                height: 93px;
+                margin-left: 835px;
+                margin-top: 508px;
+                transform: rotate(270deg);
+                z-index: 2;
+                "
+            src="" alt=""></img>
+        </div>
+        </div>
+          <div id="123" style=" height: 640px;
+          margin-left: 396px;
+          margin-top: 295px;
+          transform: rotate(90deg);
+          z-index: 2;"> </div>       
+    <script>           
+        var
+            canv = document.getElementById('canvas'),
+            ctx  = canv.getContext('2d'),
+            isMouseDown = false,
+            coords = [];
+
+        canv.width = 625;                             //*размер поля для рисования
+        canv.height = 424;
+            coordX = 90;
+            coordY = 200;
+                
+        canv.addEventListener('mousedown',function() {
+            isMouseDown = true;
+        });
+        canv.addEventListener('mouseup',function() {
+            isMouseDown = false;
+            ctx.beginPath();                       //*beginPath() - отмена 
+             coords.push('mouseup');                          
+        });
+        ctx.lineWidth = 2 * 2;
+        canv.addEventListener('mousemove',function(e){
+          
+            if(isMouseDown)
+            {
+                coords.push([e.clientX-coordX, e.clientY-coordY]);
+                ctx.lineTo(e.clientX-coordX, e.clientY-coordY);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(e.clientX-coordX,e.clientY-coordY, 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(e.clientX-coordX, e.clientY-coordY);
+            }
+        });
+
+        function save()
+        {
+            localStorage.setItem('coords', JSON.stringify(coords));
+        }
+
+        function clear() 
+        {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canv.width, canv.height);
+
+            ctx.beginPath();
+            ctx.fillStyle = 'black';
+        }
+
+        function replay()
+        {
+            var 
+                timer = setInterval(function(){
+                    if( !coords.length){                  //проверка координат
+                        clearInterval(timer);
+                        ctx.beginPath();
+                        return;
+                    } 
+            var
+                    crd = coords.shift();
+                    e = {
+                    clientX: crd["0"],
+                    clientY: crd["1"]
+                    };
+                    ctx.lineTo(e.clientX, e.clientY);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.moveTo(e.clientX, e.clientY);                        
+                }, 30);
+                
+        }
+
+        document.addEventListener('keydown', function(e){
+            
+            if(e.keyCode == 83){
+                //save
+                save();
+                console.log('Saved');
+            }
+            if(e.keyCode == 82){
+                //replay
+                console.log('Replaying...');
+
+                coords = JSON.parse(localStorage.getItem('coords'));
+                 clear();
+                 replay();
+            }
+            if(e.keyCode == 67){
+                //clear
+                clear();
+                console.log('Clear');
+
+            }
+
+        })
+    </script>                       <!-- canvas -->
+<script src="js/script.js"></script>
+<script src="js/apart.js"></script>
+<script src="js/DB.js"></script>
+<script src="js/image.js"></script>
+</body>
+</html>
